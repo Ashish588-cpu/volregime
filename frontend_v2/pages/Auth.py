@@ -19,10 +19,12 @@ def show():
     # Check if Supabase is configured
     from utils.auth import get_supabase_client, SUPABASE_AVAILABLE
 
-    # Always clear auth state when landing on Auth page to prevent redirect loops
-    # This ensures users can always access login/signup forms
-    st.session_state.authenticated = False
-    st.session_state.user = None
+    # Only clear auth state on initial page load, not after form submission
+    # This prevents clearing auth right after successful login
+    if 'auth_page_loaded' not in st.session_state:
+        st.session_state.authenticated = False
+        st.session_state.user = None
+        st.session_state.auth_page_loaded = True
 
     supabase_configured = False
     if SUPABASE_AVAILABLE:
@@ -110,6 +112,9 @@ def show():
                         success, message = sign_in(email, password)
                         if success:
                             st.success(message)
+                            # Clear the auth page flag so state resets next time
+                            if 'auth_page_loaded' in st.session_state:
+                                del st.session_state.auth_page_loaded
                             st.session_state.current_page = "Home"
                             st.rerun()
                         else:
@@ -209,6 +214,9 @@ def show():
     col1, col2, col3 = st.columns([2, 1, 2])
     with col2:
         if st.button("Continue as Guest", use_container_width=True, type="primary"):
+            # Clear the auth page flag so state resets next time
+            if 'auth_page_loaded' in st.session_state:
+                del st.session_state.auth_page_loaded
             st.session_state.current_page = "Home"
             st.rerun()
 
@@ -217,6 +225,9 @@ def show():
     col1, col2, col3 = st.columns([2, 1, 2])
     with col2:
         if st.button("← Back to Home", use_container_width=True):
+            # Clear the auth page flag so state resets next time
+            if 'auth_page_loaded' in st.session_state:
+                del st.session_state.auth_page_loaded
             st.session_state.current_page = "Home"
             st.rerun()
 

@@ -19,21 +19,15 @@ Complete guide for deploying VolRegime to Streamlit Cloud.
 
 Your project should have this structure:
 
-```
-volregime/
-├── frontend_v2/
-│   ├── app.py                    # Main entry point
-│   ├── pages/                    # All page modules
-│   ├── components/               # Reusable components
-│   ├── utils/                    # Utilities (auth, data_core)
-│   ├── styles/                   # Styling modules
-│   └── .streamlit/
-│       ├── config.toml          # Streamlit configuration
-│       └── secrets.toml.example # Example secrets file
-├── requirements.txt              # Python dependencies
-├── .gitignore                   # Git ignore rules
-└── DEPLOYMENT.md                # This file
-```
+![Repository Structure](docs/images/repository_structure.png)
+
+**Core Files:**
+- `app.py` - Main entry point (must be at repository root)
+- `frontend_v2/pages/` - All page modules
+- `frontend_v2/utils/` - Utilities (auth, data_core)
+- `frontend_v2/styles/` - Styling modules
+- `.streamlit/config.toml` - Streamlit configuration
+- `requirements.txt` - Python dependencies at root
 
 ### 1.2 Verify Requirements File
 

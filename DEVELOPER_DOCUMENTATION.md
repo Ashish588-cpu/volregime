@@ -25,41 +25,13 @@ The system monitors prices in realtime. It sends notifications when thresholds a
 
 ## 2. Data Flow Diagram
 
-```
-┌──────────┐
-│   User   │
-└────┬─────┘
-     │
-     ▼
-┌─────────────────────────────────────┐
-│         Streamlit UI                │
-│  (Pages: Home, Dashboard, Tools)    │
-└────┬────────────────────────────────┘
-     │
-     ▼
-┌─────────────────────────────────────┐
-│     Backend Functions               │
-│  - get_stock_data()                 │
-│  - calculate_indicators()           │
-│  - portfolio_metrics()              │
-└────┬────────────────────────────────┘
-     │
-     ▼
-┌─────────────────────────────────────┐
-│     Data API (yfinance)             │
-│  - Real time prices                 │
-│  - Historical OHLCV                 │
-│  - Company info                     │
-└────┬────────────────────────────────┘
-     │
-     ▼
-┌─────────────────────────────────────┐
-│     UI Render                       │
-│  - Plotly charts                    │
-│  - Metric cards                     │
-│  - Data tables                      │
-└─────────────────────────────────────┘
-```
+![Data Flow Architecture](docs/images/data_flow_diagram.png)
+
+**Flow Overview:**
+1. **User** interacts with Streamlit UI (Home, Dashboard, Portfolio Tools)
+2. **Backend Functions** process requests (get_stock_data, calculate_indicators, portfolio_metrics)
+3. **Data API (yfinance)** fetches real-time prices, historical OHLCV, and company info
+4. **UI Render** displays results via Plotly charts, metric cards, and data tables
 
 ---
 
@@ -276,19 +248,19 @@ def predict_regime(features):
 
 ## Roadmap
 
-### Q1 2025
+### Q1 2026
 Realtime dashboard. Portfolio tracking. Basic indicators. Supabase auth.
 
-### Q2 2025
+### Q2 2026
 Feature engineering. XGBoost classifier. Backtesting. Walk forward validation.
 
-### Q3 2025
+### Q3 2026
 LSTM model. Ensemble XGBoost + LSTM. Realtime prediction API.
 
-### Q4 2025
+### Q4 2026
 RL allocation agent. Model versioning. A/B testing.
 
-### 2026+
+### 2027+
 Multi asset support. Sentiment data. Institutional risk tools. Third party API.
 
 ---
@@ -319,27 +291,15 @@ Multi asset support. Sentiment data. Institutional risk tools. Third party API.
 
 ## File Structure
 
-```
-volregime/
-├── frontend_v2/
-│   ├── app.py              # Main entry
-│   ├── pages/
-│   │   ├── Home.py
-│   │   ├── AssetDashboard.py
-│   │   ├── VolatilityRegime.py
-│   │   ├── MyPortfolio.py
-│   │   ├── PortfolioTools.py
-│   │   └── Auth.py
-│   ├── utils/
-│   │   ├── auth.py
-│   │   └── data_core.py
-│   └── .streamlit/
-│       └── secrets.toml
-├── src/
-│   ├── features.py         # ML features
-│   └── data_fetch.py       # Data pipeline
-└── requirements.txt
-```
+![Project Structure](docs/images/project_structure.png)
+
+**Key Directories:**
+- `app.py` - Main application entry point
+- `frontend_v2/pages/` - All page modules (Home, AssetDashboard, VolatilityRegime, MyPortfolio, etc.)
+- `frontend_v2/utils/` - Utility modules (auth.py, data_core.py)
+- `frontend_v2/styles/` - Styling and theme components
+- `src/` - Backend modules (features.py, data_fetch.py)
+- `.streamlit/` - Configuration and secrets
 
 ---
 
