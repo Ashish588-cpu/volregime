@@ -33,12 +33,17 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# apply the neon color theme (just changes colors, doesn't break anything)
-from styles.neon_patch import apply_neon_patch
-apply_neon_patch()
 
-# auth stuff - login/signup functionality
-from utils.auth import init_session_state, is_authenticated, render_auth_ui, render_user_menu
+def lazy_import_styles():
+    """Lazy load styling to speed up startup"""
+    from styles.neon_patch import apply_neon_patch
+    apply_neon_patch()
+
+
+def lazy_import_auth():
+    """Lazy load auth to speed up startup"""
+    from utils.auth import init_session_state, is_authenticated
+    return init_session_state, is_authenticated
 
 
 def apply_theme_styles():
@@ -148,6 +153,10 @@ def render_top_nav(current_page: str):
 
 def main():
     """main function that runs the whole app"""
+
+    # Lazy load auth and styles
+    init_session_state, is_authenticated = lazy_import_auth()
+    lazy_import_styles()
 
     # setup auth stuff (checks if user is logged in)
     init_session_state()
