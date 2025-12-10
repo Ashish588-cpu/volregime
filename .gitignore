@@ -20,3 +20,12 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+
+# Streamlit secrets (CRITICAL - never commit!)
+.streamlit/secrets.toml
+**/secrets.toml
+
+# Local development
+*.log
+.cache/
+.claude/
