@@ -48,48 +48,48 @@ END = None # None means up to today
 # ============================================================
 
 def fetch_adj_close(tickers, start=None, end=None):
-"""
- Downloads Adjusted Close prices from Yahoo Finance.
+    """
+    Downloads Adjusted Close prices from Yahoo Finance.
 
- Args:
- tickers (list): e.g. ["SPY","^VIX"]
- start (str): start date in"YYYY-MM-DD"
- end (str): end date, or None for today
+    Args:
+        tickers (list): e.g. ["SPY","^VIX"]
+        start (str): start date in"YYYY-MM-DD"
+        end (str): end date, or None for today
 
- Returns:
- DataFrame: trading dates × ticker columns
-"""
- data = {}
+    Returns:
+        DataFrame: trading dates × ticker columns
+    """
+    data = {}
 
- for t in tickers:
- try:
- # Download full dataset
- df = yf.download(t, start=start, end=end, progress=False, auto_adjust=False)
+    for t in tickers:
+        try:
+            # Download full dataset
+            df = yf.download(t, start=start, end=end, progress=False, auto_adjust=False)
 
- # Check validity
- if isinstance(df, pd.DataFrame) and not df.empty and"Adj Close" in df.columns:
- data[t] = df["Adj Close"]
- print(f" Successfully fetched {t} ({len(df)} rows)")
- else:
- print(f"️ Skipping {t}: missing or invalid data")
+            # Check validity
+            if isinstance(df, pd.DataFrame) and not df.empty and"Adj Close" in df.columns:
+                data[t] = df["Adj Close"]
+                print(f" Successfully fetched {t} ({len(df)} rows)")
+            else:
+                print(f"️ Skipping {t}: missing or invalid data")
 
- except Exception as e:
- print(f" Failed to fetch {t}: {e}")
+        except Exception as e:
+            print(f" Failed to fetch {t}: {e}")
 
- # Only combine valid tickers
- if not data:
- print(" No valid tickers fetched. Returning empty DataFrame.")
- return pd.DataFrame()
+    # Only combine valid tickers
+    if not data:
+        print(" No valid tickers fetched. Returning empty DataFrame.")
+        return pd.DataFrame()
 
- # Combine into single DataFrame (aligns dates automatically)
- df = pd.concat(data, axis=1)
+    # Combine into single DataFrame (aligns dates automatically)
+    df = pd.concat(data, axis=1)
 
- # Reindex to business days (Mon–Fri only)
- if not df.empty:
- idx = pd.date_range(df.index.min(), df.index.max(), freq="B")
- df = df.reindex(idx)
+    # Reindex to business days (Mon–Fri only)
+    if not df.empty:
+        idx = pd.date_range(df.index.min(), df.index.max(), freq="B")
+        df = df.reindex(idx)
 
- return df
+    return df
 
 
 # ============================================================
@@ -97,28 +97,28 @@ def fetch_adj_close(tickers, start=None, end=None):
 # ============================================================
 
 def main():
-"""
- 1. Fetch market data for SPY and ^VIX.
- 2. Check that it’s valid.
- 3. Save the clean dataset as a .parquet file.
-"""
+    """
+    1. Fetch market data for SPY and ^VIX.
+    2. Check that it’s valid.
+    3. Save the clean dataset as a .parquet file.
+    """
 
- # Step 1 → Fetch data
- df = fetch_adj_close(TICKERS, START, END)
+    # Step 1 → Fetch data
+    df = fetch_adj_close(TICKERS, START, END)
 
- # Step 2 → Basic validation
- if df.empty or df.isna().all().all():
- print(" No valid data fetched. Skipping save.")
- return
+    # Step 2 → Basic validation
+    if df.empty or df.isna().all().all():
+        print(" No valid data fetched. Skipping save.")
+        return
 
- # Step 3 → Save output file
- out_file = DATA_DIR /"market.parquet"
- df.to_parquet(out_file)
+    # Step 3 → Save output file
+    out_file = DATA_DIR /"market.parquet"
+    df.to_parquet(out_file)
 
- print("------------------------------------------------------------")
- print(f" Market data saved successfully to: {out_file}")
- print(f" Final dataset shape: {df.shape} (rows × columns)")
- print("------------------------------------------------------------")
+    print("------------------------------------------------------------")
+    print(f" Market data saved successfully to: {out_file}")
+    print(f" Final dataset shape: {df.shape} (rows × columns)")
+    print("------------------------------------------------------------")
 
 
 # ============================================================
@@ -126,4 +126,4 @@ def main():
 # ============================================================
 
 if __name__ =="__main__":
- main()
+    main()
