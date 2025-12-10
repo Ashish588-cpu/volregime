@@ -22,5 +22,8 @@ plotly>=5.18.0
 # Performance & Caching
 scipy>=1.12.0
 
+# Machine Learning
+scikit-learn>=1.3.0
+
 # Auto-refresh for live data
 streamlit-autorefresh>=1.0.1
