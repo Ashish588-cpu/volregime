@@ -34,7 +34,7 @@ if AUTO_REFRESH_AVAILABLE:
 # Data fetching functions
 
 @st.cache_data(ttl=10, show_spinner=False) # cache for 10 seconds
-def get_asset_data(ticker: str, period: str ="5d") -> dict:
+def get_asset_data(ticker: str, period: str = "5d") -> dict:
     """grabs price data from yahoo finance"""
     try:
         # get data for specified period
@@ -43,6 +43,7 @@ def get_asset_data(ticker: str, period: str ="5d") -> dict:
 
         # need at least 2 data points to calculate change
         if data.empty or len(data) < 2:
+            st.warning(f"No data available for {ticker}")
             return None
 
         # current price vs previous close
@@ -51,9 +52,13 @@ def get_asset_data(ticker: str, period: str ="5d") -> dict:
         change = current_price - prev_close
         change_pct = (change / prev_close) * 100 if prev_close > 0 else 0
 
-        # get the full name of the asset
-        info = ticker_obj.info
-        name = info.get('shortName', ticker)
+        # get the full name of the asset (with error handling)
+        try:
+            info = ticker_obj.info
+            name = info.get('shortName', ticker)
+        except:
+            # If info fetch fails, just use ticker
+            name = ticker
 
         return {
             'ticker': ticker,
@@ -62,19 +67,20 @@ def get_asset_data(ticker: str, period: str ="5d") -> dict:
             'change': change,
             'change_pct': change_pct
         }
-    except Exception:
-        return None # if something breaks just return nothing
+    except Exception as e:
+        st.error(f"Error fetching {ticker}: {str(e)}")
+        return None
 
 
 @st.cache_data(ttl=10, show_spinner=False)
-def get_market_snapshot(period: str ="5d") -> dict:
+def get_market_snapshot(period: str = "5d") -> dict:
     """gets data for all the assets we want to show"""
     # the assets we're tracking
     assets = {
-        '^GSPC':'S&P 500',
-        '^IXIC':'NASDAQ',
-        '^DJI':'DOW',
-        '^VIX':'VIX'
+        '^GSPC': 'S&P 500',
+        '^IXIC': 'NASDAQ',
+        '^DJI': 'DOW',
+        '^VIX': 'VIX'
     }
 
     snapshot = {}
@@ -96,8 +102,8 @@ def get_featured_articles(limit: int = 3) -> list:
     try:
         import feedparser
         news_sources = [
-            {'name':'MarketWatch','url':'https://feeds.marketwatch.com/marketwatch/topstories/'},
-            {'name':'Yahoo Finance','url':'https://feeds.finance.yahoo.com/rss/2.0/headline'},
+            {'name': 'MarketWatch', 'url': 'https://feeds.marketwatch.com/marketwatch/topstories/'},
+            {'name': 'Yahoo Finance', 'url': 'https://feeds.finance.yahoo.com/rss/2.0/headline'},
         ]
 
         articles = []
@@ -105,18 +111,18 @@ def get_featured_articles(limit: int = 3) -> list:
             try:
                 feed = feedparser.parse(source['url'])
                 for entry in feed.entries[:3]: # Get 3 from each source
-                    title = entry.get('title','')
-                    summary = entry.get('summary', entry.get('description',''))
-                    link = entry.get('link','')
+                    title = entry.get('title', '')
+                    summary = entry.get('summary', entry.get('description', ''))
+                    link = entry.get('link', '')
 
                     if title and link:
                         # Clean up summary
                         if not summary:
-                            summary ="Click to read more..."
+                            summary = "Click to read more..."
 
                         articles.append({
                             'title': title,
-                            'summary': summary[:120] +'...' if len(summary) > 120 else summary,
+                            'summary': summary[:120] + '...' if len(summary) > 120 else summary,
                             'link': link,
                             'source': source['name']
                         })
@@ -137,7 +143,7 @@ def get_featured_articles(limit: int = 3) -> list:
 def render_asset_card(ticker: str, data: dict):
     """makes a card showing the asset price and change"""
     # single neon cyan accent only
-    arrow ="▲" if data['change_pct'] >= 0 else"▼"
+    arrow = "▲" if data['change_pct'] >= 0 else "▼"
 
     # format price nicely
     price = float(data['price'])
