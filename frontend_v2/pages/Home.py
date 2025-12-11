@@ -43,7 +43,6 @@ def get_asset_data(ticker: str, period: str = "5d") -> dict:
 
         # need at least 2 data points to calculate change
         if data.empty or len(data) < 2:
-            st.warning(f"No data available for {ticker}")
             return None
 
         # current price vs previous close
@@ -68,7 +67,6 @@ def get_asset_data(ticker: str, period: str = "5d") -> dict:
             'change_pct': change_pct
         }
     except Exception as e:
-        st.error(f"Error fetching {ticker}: {str(e)}")
         return None
 
 
