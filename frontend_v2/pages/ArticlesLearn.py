@@ -5,7 +5,7 @@ Comprehensive resource with categorized news, bookmarks, and structured learning
 
 import streamlit as st
 import feedparser
-from datetime import datetime
+from datetime import datetime, timezone
 import re
 import warnings
 warnings.filterwarnings('ignore')
@@ -172,9 +172,9 @@ def get_market_news():
                         if published:
                             pub_date = datetime.strptime(published, '%a, %d %b %Y %H:%M:%S %z')
                         else:
-                            pub_date = datetime.now()
+                            pub_date = datetime.now(timezone.utc)
                     except:
-                        pub_date = datetime.now()
+                        pub_date = datetime.now(timezone.utc)
 
                     article = {
                         'title': title,
