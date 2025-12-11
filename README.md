@@ -54,28 +54,6 @@ Charts: Plotly
 Auth + Storage: Supabase
 Other: feedparser, requests
 
-File Structure
-volregime/
-│
-├── app.py                     # App entry point
-├── requirements.txt
-├── README.md
-│
-├── frontend_v2/
-│   ├── pages/                 # All UI pages
-│   ├── utils/                 # Data + auth utilities
-│   ├── styles/                # Theme + components
-│
-├── src/
-│   ├── data_fetch.py          # Fetch + cache data
-│   ├── features.py            # Indicators + features
-│   ├── ml/                    # ML models (future)
-│
-├── docs/
-│   ├── images/                # Diagrams + docs
-│
-└── screenshots/               # App screenshots
-
 *Local Setup
 1. Clone the repository
 git clone https://github.com/<your-username>/volregime
