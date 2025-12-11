@@ -4,7 +4,6 @@ Simple documentation for using the platform
 """
 
 import streamlit as st
-import os
 
 def show():
     """Shows user guide page"""
@@ -41,17 +40,11 @@ def show():
         ">Video Tutorial</h2>
         """, unsafe_allow_html=True)
 
-        # Video embed - will use local file for now, can switch to YouTube URL later
-        # For YouTube: st.video("https://www.youtube.com/watch?v=YOUR_VIDEO_ID")
-        video_path = r"C:\Users\Yaman\Downloads\VolRegime-main.mp4"
-
-        if os.path.exists(video_path):
-            try:
-                st.video(video_path)
-            except Exception as e:
-                st.warning(f"Unable to load video: {e}")
-        else:
-            st.info("Video tutorial coming soon! Upload to YouTube and update the link.")
+        # Video embed from YouTube
+        try:
+            st.video("https://youtu.be/Nhykacq8LWA")
+        except Exception as e:
+            st.warning(f"Unable to load video: {e}")
 
         st.markdown("---")
 
