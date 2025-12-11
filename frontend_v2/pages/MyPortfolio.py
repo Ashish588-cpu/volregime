@@ -596,6 +596,7 @@ def show():
         padding: 1.5rem 0;
     ">
         <p>Portfolio data is stored in your browser session. Real-time prices from Yahoo Finance.</p>
+        <p style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #1e293b;">2025 || Ashish Dahal || copy right reserved</p>
     </div>
     """, unsafe_allow_html=True)
 

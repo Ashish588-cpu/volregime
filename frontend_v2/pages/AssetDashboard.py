@@ -1019,6 +1019,20 @@ def show():
             ), unsafe_allow_html=True)
             st.info(" If this problem persists, try a different ticker symbol or check your internet connection.")
 
+    # Copyright footer
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style="
+        text-align: center;
+        color: #64748b;
+        font-size: 0.85rem;
+        padding: 2rem 0 1rem 0;
+        border-top: 1px solid #1e293b;
+    ">
+        <p>2025 || Ashish Dahal || copy right reserved</p>
+    </div>
+    """, unsafe_allow_html=True)
+
 if __name__ =="__main__":
     show()
 

@@ -34,7 +34,7 @@ def show():
             font-size: 1.2rem;
             margin: 0;
         ">
-            ML-Powered Market State Classification • Coming Q2 2025
+            ML-Powered Market State Classification • Coming Q2 2026
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -242,12 +242,26 @@ def show():
         box-shadow: 0 0 20px rgba(0,230,246,0.2);
     ">
         <div style="color: #e2e8f0; line-height: 2;">
-            <p><strong style="color: #00e6f6;">Q1 2025:</strong> Feature engineering pipeline and data collection</p>
-            <p><strong style="color: #00e6f6;">Q2 2025:</strong> XGBoost model training and backtesting</p>
-            <p><strong style="color: #00e6f6;">Q3 2025:</strong> LSTM implementation and ensemble model</p>
-            <p><strong style="color: #00e6f6;">Q4 2025:</strong> Production deployment and real-time API</p>
+            <p><strong style="color: #00e6f6;">Q1 2026:</strong> Feature engineering pipeline and data collection</p>
+            <p><strong style="color: #00e6f6;">Q2 2026:</strong> XGBoost model training and backtesting</p>
+            <p><strong style="color: #00e6f6;">Q3 2026:</strong> LSTM implementation and ensemble model</p>
+            <p><strong style="color: #00e6f6;">Q4 2026:</strong> Production deployment and real-time API</p>
             <p><strong style="color: #00e6f6;">2026+:</strong> RL-based allocation agent and institutional tools</p>
         </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Copyright footer
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style="
+        text-align: center;
+        color: #64748b;
+        font-size: 0.85rem;
+        padding: 2rem 0 1rem 0;
+        border-top: 1px solid #1e293b;
+    ">
+        <p>2025 || Ashish Dahal || copy right reserved</p>
     </div>
     """, unsafe_allow_html=True)
 

@@ -479,6 +479,7 @@ def show():
     <div style="font-family:'Inter', sans-serif; text-align: center; color: #64748b; font-size: 0.85rem; padding: 2rem 0;">
         <p>Data provided by Yahoo Finance • Auto-refreshes every 10 seconds</p>
         <p>Use the navigation bar above to explore more features</p>
+        <p style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #1e293b;">2025 || Ashish Dahal || copy right reserved</p>
     </div>
     """, unsafe_allow_html=True)
 
