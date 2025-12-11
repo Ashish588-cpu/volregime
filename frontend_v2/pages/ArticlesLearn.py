@@ -145,13 +145,13 @@ def get_market_news():
     """Fetch latest market news from multiple RSS feeds"""
     try:
         news_sources = [
-            {'name':'MarketWatch','url':'https://feeds.marketwatch.com/marketwatch/topstories/','icon':''},
-            {'name':'Yahoo Finance','url':'https://feeds.finance.yahoo.com/rss/2.0/headline','icon':''},
-            {'name':'Reuters Business','url':'https://feeds.reuters.com/reuters/businessNews','icon':'️'},
-            {'name':'WSJ Markets','url':'https://feeds.a.dj.com/rss/RSSMarketsMain.xml','icon':''},
-            {'name':'CNBC','url':'https://www.cnbc.com/id/100003114/device/rss/rss.html','icon':''},
-            {'name':'Bloomberg','url':'https://feeds.bloomberg.com/markets/news.rss','icon':''},
-            {'name':'Seeking Alpha','url':'https://seekingalpha.com/market_currents.xml','icon':''}
+            {'name': 'MarketWatch', 'url': 'https://feeds.marketwatch.com/marketwatch/topstories/', 'icon': ''},
+            {'name': 'Yahoo Finance', 'url': 'https://feeds.finance.yahoo.com/rss/2.0/headline', 'icon': ''},
+            {'name': 'Reuters Business', 'url': 'https://feeds.reuters.com/reuters/businessNews', 'icon': ''},
+            {'name': 'WSJ Markets', 'url': 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml', 'icon': ''},
+            {'name': 'CNBC', 'url': 'https://www.cnbc.com/id/100003114/device/rss/rss.html', 'icon': ''},
+            {'name': 'Bloomberg', 'url': 'https://feeds.bloomberg.com/markets/news.rss', 'icon': ''},
+            {'name': 'Seeking Alpha', 'url': 'https://seekingalpha.com/market_currents.xml', 'icon': ''}
         ]
 
         all_articles = []
@@ -160,17 +160,17 @@ def get_market_news():
             try:
                 feed = feedparser.parse(source['url'])
                 for entry in feed.entries[:6]: # Get top 6 from each source
-                    title = entry.get('title','')
-                    summary = entry.get('summary', entry.get('description',''))
+                    title = entry.get('title', '')
+                    summary = entry.get('summary', entry.get('description', ''))
 
                     # Categorize article
-                    category = categorize_article(title +"" + summary)
+                    category = categorize_article(title + " " + summary)
 
                     # Parse published date
-                    published = entry.get('published','')
+                    published = entry.get('published', '')
                     try:
                         if published:
-                            pub_date = datetime.strptime(published,'%a, %d %b %Y %H:%M:%S %z')
+                            pub_date = datetime.strptime(published, '%a, %d %b %Y %H:%M:%S %z')
                         else:
                             pub_date = datetime.now()
                     except:
@@ -178,9 +178,9 @@ def get_market_news():
 
                     article = {
                         'title': title,
-                        'summary': summary[:150] +'...' if len(summary) > 150 else summary,
+                        'summary': summary[:150] + '...' if len(summary) > 150 else summary,
                         'full_summary': summary,
-                        'link': entry.get('link',''),
+                        'link': entry.get('link', ''),
                         'published': published,
                         'pub_date': pub_date,
                         'source': source['name'],
@@ -196,7 +196,8 @@ def get_market_news():
 
         return all_articles
 
-    except Exception:
+    except Exception as e:
+        st.error(f"Error fetching news: {str(e)}")
         return []
 
 
@@ -209,7 +210,7 @@ def categorize_article(text: str) -> str:
             if keyword in text_lower:
                 return category
 
-    return"Market Updates" # Default category
+    return "Market Updates" # Default category
 
 
 def extract_trending_topics(articles: list) -> list:
@@ -453,12 +454,12 @@ def show():
             category_tabs = st.tabs([" ALL","MARKET"," FED POLICY"," EARNINGS"," CRYPTO"," TECH"])
 
             category_map = {
-                0:"All",
-                1:"Market Updates",
-                2:"Fed Policy",
-                3:"Earnings",
-                4:"Crypto",
-                5:"Tech"
+                0: "All",
+                1: "Market Updates",
+                2: "Fed Policy",
+                3: "Earnings",
+                4: "Crypto",
+                5: "Tech"
             }
 
             for tab_idx, cat_tab in enumerate(category_tabs):
@@ -466,7 +467,7 @@ def show():
                     category = category_map[tab_idx]
 
                     # Filter articles
-                    if category =="All":
+                    if category == "All":
                         filtered_articles = articles
                     else:
                         filtered_articles = [a for a in articles if a['category'] == category]
