@@ -4,6 +4,7 @@ Simple documentation for using the platform
 """
 
 import streamlit as st
+import os
 
 def show():
     """Shows user guide page"""
@@ -28,6 +29,29 @@ def show():
             margin-bottom: 2rem;
         ">User Guide</h1>
         """, unsafe_allow_html=True)
+
+        # Video Tutorial Section
+        st.markdown("""
+        <h2 style="
+            color: #00e6f6;
+            font-size: 1.75rem;
+            text-align: center;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        ">Video Tutorial</h2>
+        """, unsafe_allow_html=True)
+
+        # Video embed - will use local file for now, can switch to YouTube URL later
+        # For YouTube: st.video("https://www.youtube.com/watch?v=YOUR_VIDEO_ID")
+        video_path = r"C:\Users\Yaman\Downloads\VolRegime-main.mp4"
+
+        if os.path.exists(video_path):
+            try:
+                st.video(video_path)
+            except Exception as e:
+                st.warning(f"Unable to load video: {e}")
+        else:
+            st.info("Video tutorial coming soon! Upload to YouTube and update the link.")
 
         st.markdown("---")
 
