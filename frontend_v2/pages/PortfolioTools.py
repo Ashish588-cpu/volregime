@@ -329,6 +329,12 @@ def calculate_sharpe_ratio(portfolio_df: pd.DataFrame, risk_free_rate: float = 0
         return None
 
     try:
+        # Calculate total value and weights if not already present
+        if 'Weight' not in portfolio_df.columns:
+            portfolio_df['Total Value'] = portfolio_df['Shares'] * portfolio_df['Current Price']
+            total_portfolio_value = portfolio_df['Total Value'].sum()
+            portfolio_df['Weight'] = portfolio_df['Total Value'] / total_portfolio_value
+
         # Fetch historical data for all tickers
         returns_data = {}
 
