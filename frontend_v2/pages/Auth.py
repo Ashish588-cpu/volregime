@@ -31,6 +31,10 @@ def show():
         client = get_supabase_client()
         if client:
             supabase_configured = True
+        else:
+            st.error("Supabase client could not be created. Check your secrets configuration.")
+    else:
+        st.error("Supabase library is not installed. Run: pip install supabase")
 
     # Hero header
     st.markdown("""
